@@ -4,7 +4,7 @@ CONTAINER_APP=planner-app
 # Commands
 up: build start
 
-up-n-build: build start install migrate
+up-n-install: build start install migrate-seed
 
 build:
 	docker compose build
@@ -19,6 +19,9 @@ install:
 migrate:
 	docker compose exec $(CONTAINER_APP) php artisan migrate || true
 
+migrate-seed:
+	docker compose exec $(CONTAINER_APP) php artisan migrate --seed || true
+
 down:
 	docker compose down -v --remove-orphans
 
@@ -29,3 +32,6 @@ logs:
 
 bash:
 	docker compose exec $(CONTAINER_APP) bash
+
+artisan:
+	docker compose exec planner-app php artisan $(filter-out $@,$(MAKECMDGOALS))
