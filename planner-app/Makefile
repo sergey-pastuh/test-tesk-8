@@ -15,6 +15,7 @@ start:
 install:
 	docker compose exec $(CONTAINER_APP) composer install
 	docker compose exec $(CONTAINER_APP) php artisan key:generate
+	docker compose exec $(CONTAINER_APP) npm install & npm run build
 
 migrate:
 	docker compose exec $(CONTAINER_APP) php artisan migrate || true
