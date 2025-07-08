@@ -24,8 +24,8 @@ class TaskSeeder extends Seeder
             'password' => Hash::make('12345678'),
         ]);
 
-        //Seed 10 root tasks
-        for ($i = 0; $i < 10; $i++) {
+        //Seed 40 root tasks
+        for ($i = 0; $i < 40; $i++) {
             $rootTask = $this->createTask($user->id);
 
             // eed subtasks recursively (up to 3 levels)

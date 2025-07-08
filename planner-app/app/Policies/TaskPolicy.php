@@ -22,8 +22,7 @@ class TaskPolicy
 
     public function update(User $user, Task $task): bool
     {
-        return $user->id === $task->user_id
-            && $task->status->value !== 'done';
+        return $user->id === $task->user_id;
     }
 
     public function delete(User $user, Task $task): bool
@@ -34,11 +33,7 @@ class TaskPolicy
 
     public function complete(User $user, Task $task): bool
     {
-        if ($user->id !== $task->user_id) {
-            return false;
-        }
-
-        // Prevent marking as completed if there are incomplete subtasks
-        return !$task->subtasks()->where('status', '!=', 'done')->exists();
+        return $user->id === $task->user_id
+            && $task->status->value !== 'done';
     }
 }

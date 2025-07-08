@@ -8,13 +8,13 @@ use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Services\TaskService;
 use App\ValueObjects\Task\TaskFilterDTO;
-use App\ValueObjects\Task\TaskPriority;
-use App\ValueObjects\Task\TaskStatus;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TaskController extends Controller
 {
+    use AuthorizesRequests;
     public function __construct(
         private TaskService $taskService
     ) {}
@@ -36,14 +36,10 @@ class TaskController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $dto = new TaskFilterDTO(
-            status: $request->filled('status') ? TaskStatus::from($request->status) : null,
-            priority: $request->filled('priority') ? TaskPriority::from((int) $request->priority) : null,
-            search: $request->input('search'),
-            sort: explode(',', $request->input('sort', 'created_at desc')),
-        );
+        $user = $request->user();
+        $dto = TaskFilterDTO::fromRequest($request);
 
-        $paginated = $this->taskService->getTaskTreeForUser($request->user(), $dto);
+        $paginated = $this->taskService->getTaskTreeForUser($user, $dto);
 
         return TaskResource::collection($paginated);
     }

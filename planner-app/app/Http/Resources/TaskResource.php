@@ -20,7 +20,8 @@ class TaskResource extends JsonResource
             'priority' => $this->priority->value,
             'created_at' => $this->created_at,
             'completed_at' => $this->completed_at,
-            'subtasks' => TaskResource::collection($this->whenLoaded('subtasks') ?? []),
+            'subtasks' => TaskResource::collection($this->whenLoaded('allSubtasks') ??
+                ($this->whenLoaded('subtasks') ?? [])),
         ];
     }
 }

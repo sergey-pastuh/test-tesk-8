@@ -59,10 +59,11 @@ class Task extends Model
         return $this->hasMany(self::class, 'parent_id');
     }
 
-    //Another option of recursive implementation made with Recursive Eloquent Relationship,
-    //was commented out in case if manual recursion implementation was intended in the test task
-//    public function allSubtasks(): HasMany
-//    {
-//        return $this->subtasks()->with('allSubtasks');
-//    }
+    /**
+     * @return HasMany
+     */
+    public function allSubtasks(): HasMany
+    {
+        return $this->subtasks()->with('allSubtasks');
+    }
 }

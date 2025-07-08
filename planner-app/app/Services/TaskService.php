@@ -45,10 +45,6 @@ class TaskService
      */
     public function updateTask(Task $task, array $data): Task
     {
-        if ($task->status === TaskStatus::DONE) {
-            throw ValidationException::withMessages(['status' => 'Cannot update completed task.']);
-        }
-
         return $this->repository->update($task, $data);
     }
 

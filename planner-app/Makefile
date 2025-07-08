@@ -33,5 +33,5 @@ logs:
 bash:
 	docker compose exec $(CONTAINER_APP) bash
 
-artisan:
-	docker compose exec planner-app php artisan $(filter-out $@,$(MAKECMDGOALS))
+optimize:
+	docker compose exec $(CONTAINER_APP) php artisan optimize

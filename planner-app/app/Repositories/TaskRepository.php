@@ -20,47 +20,12 @@ class TaskRepository
         $this->applySearch($query, $dto);
         $this->applySorting($query, $dto);
 
-        //Another option of recursive implementation made with Recursive Eloquent Relationship,
-        //was commented out in case if manual recursion implementation was intended in the test task
-        //$query->with('allsubtasks');
-
-        $paginated = $query->paginate(10);
-
-        //Fetch all subtasks for parents
-        $allSubtasks = Task::where('user_id', $userId)
-            ->whereIn('parent_id', $paginated->pluck('id'))
-            ->get();
-
-        $grouped = $allSubtasks->groupBy('parent_id');
-
         //Recursively get all child subtasks on all necessary levels
-        $paginated->getCollection()->transform(function (Task $task) use ($grouped) {
-            return $this->buildTaskTree($task, $grouped);
-        });
+        $query->with('allSubtasks');
 
-        return $paginated;
+        return $query->paginate(25);
     }
 
-    /**
-     * @param Task $task
-     * @param Collection $grouped
-     * @return array
-     */
-    private function buildTaskTree(Task $task, Collection $grouped): array
-    {
-        return [
-            'id' => $task->id,
-            'title' => $task->title,
-            'description' => $task->description,
-            'status' => $task->status,
-            'priority' => $task->priority,
-            'completed_at' => $task->completed_at,
-            'created_at' => $task->created_at,
-            'subtasks' => ($grouped[$task->id] ?? collect())->map(function (Task $subtask) use ($grouped) {
-                return $this->buildTaskTree($subtask, $grouped);
-            })->values()->toArray(),
-        ];
-    }
 
     /**
      * @param Builder $query
@@ -86,10 +51,7 @@ class TaskRepository
     private function applySearch(Builder $query, TaskFilterDTO $dto): void
     {
         if ($dto->search) {
-            $query->where(function ($q) use ($dto) {
-                $q->where('title', 'like', '%' . $dto->search . '%')
-                    ->orWhere('description', 'like', '%' . $dto->search . '%');
-            });
+            $query->whereRaw('MATCH(title, description) AGAINST(? IN NATURAL LANGUAGE MODE)', [$dto->search]);
         }
     }
 
@@ -100,13 +62,8 @@ class TaskRepository
      */
     private function applySorting(Builder $query, TaskFilterDTO $dto): void
     {
-        foreach ($dto->sort as $clause) {
-            if (!str_contains($clause, ' ')) {
-                continue;
-            }
-
-            [$field, $direction] = explode(' ', trim($clause));
-            $query->orderBy($field, $direction);
+        foreach ($dto->sort as $order) {
+            $query->orderBy($order['column'], $order['direction']);
         }
     }
 
