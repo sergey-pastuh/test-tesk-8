@@ -23,7 +23,7 @@ class TaskFactory extends Factory
             'title' => $this->faker->sentence(),
             'description' => $this->faker->paragraph(),
             'status' => TaskStatus::TODO,
-            'priority' => TaskPriority::MEDIUM,
+            'priority' => TaskPriority::P3,
             'user_id' => fn () => User::factory(),
         ];
     }

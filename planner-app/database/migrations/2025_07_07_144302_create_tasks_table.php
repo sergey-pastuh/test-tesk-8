@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('status')->default(TaskStatus::TODO->value);
-            $table->unsignedTinyInteger('priority')->default(TaskPriority::MEDIUM->value);
+            $table->unsignedTinyInteger('priority')->default(TaskPriority::P3->value);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('parent_id')->nullable()->constrained('tasks')->onDelete('cascade');
             $table->timestamp('completed_at')->nullable();
