@@ -13,14 +13,14 @@ $(document).ready(function () {
     };
 
     // Top-level +Add Task button
-    $('[data-bs-target="#addTaskModal"]').on('click', function () {
+    $('#add-task').on('click', function () {
         $('#parent_id').val('');
         $('#parent_task_display').val('');
         $('#parentTaskWrapper').addClass('d-none');
     });
 
     // Reset modal if opened without preset parent_id
-    $('#addTaskModal').on('show.bs.modal', function () {
+    $('#add-subtask').on('click', function () {
         if (!$('#parent_id').val()) {
             $('#parentTaskWrapper').addClass('d-none');
             $('#parent_id').val('');

@@ -41,6 +41,7 @@
                        onclick="loadTaskIntoModal({{ json_encode($task) }})">Edit</a>
                 </li>
                 @if ($status !== 'DONE')
+                    <li><a id="add-subtask" class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addTaskModal" onclick="prepareSubtaskModal(this)">Add Subtask</a></li>
                     <li><a href="#" class="dropdown-item" onclick="completeTask({{ $task['id'] }})">Complete</a></li>
                     <li><a href="#" class="dropdown-item text-danger" onclick="deleteTask({{ $task['id'] }})">Delete</a></li>
                 @endif

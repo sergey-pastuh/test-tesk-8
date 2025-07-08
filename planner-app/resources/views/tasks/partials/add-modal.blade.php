@@ -28,17 +28,9 @@
                     </select>
                 </div>
 
-                <div class="mb-3">
-                    <label for="status" class="form-label">Status</label>
-                    <select name="status" id="status" class="form-select">
-                        <option value="todo" selected>To Do</option>
-                        <option value="done">Done</option>
-                    </select>
-                </div>
-
                 <div class="mb-3 d-none" id="parentTaskWrapper">
                     <label for="parent_task_display" class="form-label">Parent Task</label>
-                    <input type="text" class="form-control" id="parent_task_display" readonly>
+                    <input type="text" class="form-control" id="parent_task_display" readonly disabled>
                     <input type="hidden" name="parent_id" id="parent_id">
                 </div>
 

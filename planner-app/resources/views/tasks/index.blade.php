@@ -4,7 +4,7 @@
     @auth
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="h4 fw-bold mb-0">Your Tasks</h2>
-            <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addTaskModal">+ Add Task</button>
+            <button id="add-task" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addTaskModal">+ Add Task</button>
         </div>
 
         <form method="GET" class="d-flex gap-2 mb-4">
@@ -43,8 +43,12 @@
                     @include('tasks.partials.task', ['task' => $task, 'id' => 'task_'.$index])
                 @endforeach
             </div>
-            <div class="mt-4">
-                {{ $tasks->links() }}
+            <div class="d-flex justify-content-center mt-4">
+                {{ $tasks->onEachSide(1)->links() }}
+            </div>
+
+            <div class="text-center text-muted small mt-1">
+                Showing {{ $tasks->firstItem() }} to {{ $tasks->lastItem() }} of {{ $tasks->total() }} results
             </div>
         @endif
     @endauth
