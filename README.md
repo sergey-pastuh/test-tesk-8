@@ -7,16 +7,17 @@ A RESTful task management system built with Laravel 11, Docker, Breeze auth, rec
 ## 🐳 Setup Instruction
 
 ```bash
+#Copy env file
 cp .env.example .env
-cp .env.docker.example .env.docker
 
-# Start containers, install dependencies, migrate and seed DB
+#Start containers, install dependencies, migrate and seed DB
 make up-n-install
 ```
 ---
 
 ## 🔐 Demo Credentials
 Email:    user@example.com
+
 Password: password
 
 ---
@@ -37,13 +38,14 @@ php artisan scribe:generate
 
 ## 🧪 API Endpoints Summary
 
-| Method | URL                        | Description                               |
-| ------ | -------------------------- | ----------------------------------------- |
-| GET    | `/api/tasks`               | Paginated root tasks with nested subtasks |
-| POST   | `/api/tasks`               | Create a new task                         |
-| PUT    | `/api/tasks/{id}`          | Update an existing task                   |
-| DELETE | `/api/tasks/{id}`          | Delete a task (if not completed)          |
-| POST   | `/api/tasks/{id}/complete` | Mark task as completed                    |
+| Method | URL                        | Description                        |
+|-------|----------------------------|------------------------------------|
+| GET   | `/tasks`                   | Web route for accessing tasks list |
+| GET   | `/api/tasks`               | Api route for accessing tasks list |
+| POST  | `/api/tasks`               | Create a new task                  |
+| PUT   | `/api/tasks/{id}`          | Update an existing task            |
+| DELETE|  `/api/tasks/{id}`         | Delete a task (if not completed)   |
+| POST  | `/api/tasks/{id}/complete` | Mark task as completed             |
 
 
 ---
