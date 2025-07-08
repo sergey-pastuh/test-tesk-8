@@ -10,4 +10,12 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+ARG UID=1000
+ARG GID=1000
+
+RUN addgroup --gid $GID appgroup \
+    && adduser --disabled-password --gecos "" --uid $UID --gid $GID appuser
+
 WORKDIR /var/www/html
+
+USER appuser
